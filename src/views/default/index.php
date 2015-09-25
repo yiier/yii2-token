@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{:status}',
+                'template' => '{status}',
                 'buttons' => [
                     // 自定义按钮
                     'status' => function ($url, $model, $key) {
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'aria-label' => Yii::t('app', 'Change Status'),
                             'data-pjax' => '0',
                         ];
-                        return Html::a(Icon::show('exchange'), $url, $options);
+                        return Html::a(HTML::tag('i', '', ['class' => 'glyphicon glyphicon-transfer']), $url, $options);
                     },
                 ]
             ],
