@@ -10,22 +10,41 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist yiier/yii2-rest-token "*"
+php composer.phar require --prefer-dist yiier/yii2-token "*"
 ```
 
 or add
 
 ```
-"yiier/yii2-rest-token": "*"
+"yiier/yii2-token": "*"
 ```
 
 to the require section of your `composer.json` file.
 
 
+Migrations
+-----------
+
+Run the following command
+
+```shell
+php yii migrate --migrationPath=@yiier/token/migrations/
+
+```
+
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by  :
+Once the extension is installed, simply modify your application configuration as follows:
 
 ```php
-<?= \yiier\token\AutoloadExample::widget(); ?>```
+return [
+    'modules' => [
+        'token' => [
+            'class' => 'yiier\token\Module',
+        ],
+    ],
+];
+```
+
+[More detail](/src/models/Token.php)

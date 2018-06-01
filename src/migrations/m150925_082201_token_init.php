@@ -29,15 +29,16 @@ class m150925_082201_token_init extends Migration
     {
         $this->createTable($this->tokenTable, [
             'id' => $this->primaryKey(),
+            'provider' => $this->string(20)->defaultValue(null)->comment('授权提供商'),
             'user_id' => $this->integer()->notNull(),
-            'username' => $this->string()->notNull(),
-            'value' => $this->string()->notNull(),
-            'ip' => $this->bigInteger()->notNull(),
-            'status' => $this->smallInteger()->defaultValue(10),
-            'expires_in' => $this->integer()->notNull(),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
-            'expired_at' => $this->integer()->notNull(),
+            'username' => $this->string(120)->defaultValue(null),
+            'value' => $this->string(120)->notNull(),
+            'ip' => $this->string(120)->notNull()->comment('ip'),
+            'status' => $this->tinyInteger(1)->defaultValue(10)->comment('状态 10 正常 0删除'),
+            'expires_in' => $this->integer()->notNull()->comment('有效时间，单位秒'),
+            'created_at' => $this->integer()->unsigned()->defaultValue(null),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(null),
+            'expired_at' => $this->integer()->unsigned()->defaultValue(null)->comment('过期时间戳'),
         ]);
         $this->createIndex('value_expired_at', $this->tokenTable, ['value', 'expired_at']);
         $this->createIndex('user_id', $this->tokenTable, 'user_id');
@@ -45,12 +46,13 @@ class m150925_082201_token_init extends Migration
         $this->createTable($this->tokenLogTable, [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'username' => $this->string()->notNull(),
+            'username' => $this->string(120)->defaultValue(null),
             'token_id' => $this->integer()->notNull(),
-            'token_value' => $this->string()->notNull(),
+            'token_value' => $this->string(120)->notNull(),
+            'method' => $this->string(10)->comment('请求类型'),
             'url' => $this->string()->notNull(),
-            'ip' => $this->bigInteger()->notNull(),
-            'created_at' => $this->integer()->notNull(),
+            'ip' => $this->string(120)->notNull()->comment('ip'),
+            'created_at' => $this->integer()->unsigned()->defaultValue(null),
         ]);
         $this->createIndex('username', $this->tokenLogTable, 'username');
         $this->createIndex('token_value', $this->tokenLogTable, 'token_value');

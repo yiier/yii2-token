@@ -20,7 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
+            'user_id',
+            'username',
             'token_id',
+            'token_value',
             [
                 'attribute' => 'url',
                 'filter' => Html::activeTextInput($searchModel, 'url', ['class' => 'form-control']),
@@ -29,11 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a("请求地址", $data->url, ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => $data->url]);
                 },
             ],
+            'method',
             [
                 'attribute' => 'ip',
                 'format' => 'raw',
                 'value' => function ($data) {
-                    return long2ip($data->ip);
+                    return $data->ip;
                 },
             ],
             'created_at:datetime',

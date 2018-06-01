@@ -22,15 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'token_id',
             'url:url',
-            'shop_id',
-            'shop_name',
+            'method',
+            'user_id',
+            'username',
             'data',
-            [
-                'attribute' => 'ip',
-                'value' => long2ip($model->ip)
-            ],
+            'ip',
             'created_at:datetime',
-            'updated_at:datetime',
         ],
     ]) ?>
 

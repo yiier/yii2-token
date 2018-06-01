@@ -4,6 +4,7 @@ namespace yiier\token\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%token_log}}".
@@ -13,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $username
  * @property integer $token_id
  * @property string $token_value
+ * @property string $method GET, POST, HEAD, PUT, PATCH, DELETE
  * @property string $url
  * @property integer $ip
  * @property integer $created_at
@@ -20,7 +22,7 @@ use yii\db\ActiveRecord;
 class TokenLog extends ActiveRecord
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -28,31 +30,34 @@ class TokenLog extends ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['user_id', 'username', 'token_id', 'token_value', 'url', 'ip', 'created_at'], 'required'],
-            [['user_id', 'token_id', 'ip', 'created_at'], 'integer'],
-            [['username', 'token_value', 'url'], 'string', 'max' => 255]
+            [['user_id', 'token_id', 'token_value', 'url', 'ip'], 'required'],
+            [['user_id', 'token_id', 'method', 'created_at'], 'integer'],
+            [['username', 'token_value', 'ip'], 'string', 'max' => 120],
+            ['method', 'string', 'max' => 10],
+            [['url'], 'string', 'max' => 255],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('common', 'ID'),
-            'user_id' => Yii::t('common', 'User ID'),
-            'username' => Yii::t('common', 'Username'),
-            'token_id' => Yii::t('common', 'Token ID'),
-            'token_value' => Yii::t('common', 'Token Value'),
-            'url' => Yii::t('common', 'Url'),
-            'ip' => Yii::t('common', 'Ip'),
-            'created_at' => Yii::t('common', 'Created At'),
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'username' => Yii::t('app', 'Username'),
+            'token_id' => Yii::t('app', 'Token ID'),
+            'token_value' => Yii::t('app', 'Token Value'),
+            'method' => Yii::t('app', '请求类型'),
+            'url' => Yii::t('app', 'Url'),
+            'ip' => Yii::t('app', 'Ip'),
+            'created_at' => Yii::t('app', 'Created At'),
         ];
     }
 
@@ -64,14 +69,16 @@ class TokenLog extends ActiveRecord
     public static function saveModel()
     {
         $model = new self;
-        $shop = Token::findModel();
+        $token = Token::findModel();
         $model->setAttributes([
-            'token_id' => Token::tokenId(),
+            'token_id' => $token->id,
+            'token_value' => $token->value,
             'url' => \Yii::$app->request->absoluteUrl,
-            'shop_id' => $shop->user->shop_id,
-            'shop_name' => $shop->user->shop_name,
-            'data' => \Yii::$app->request->rawBody,
-            'ip' => ip2long(\Yii::$app->request->userIP),
+            'method' => \Yii::$app->request->method,
+            'user_id' => $token->user_id,
+            'username' => ArrayHelper::getValue(Yii::$app->user->identity, 'username'),
+            'ip' => \Yii::$app->request->userIP,
+            'created_at' => time()
         ]);
         return $model->save();
     }

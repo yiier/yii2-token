@@ -18,7 +18,7 @@ class TokenSearch extends Token
     {
         return [
             [['id', 'user_id', 'ip', 'status', 'expires_in', 'created_at', 'updated_at', 'expired_at'], 'integer'],
-            [['username', 'value'], 'safe'],
+            [['username', 'value', 'provider'], 'safe'],
         ];
     }
 
@@ -71,6 +71,7 @@ class TokenSearch extends Token
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'provider', $this->provider])
             ->andFilterWhere(['like', 'value', $this->value]);
 
         return $dataProvider;

@@ -18,7 +18,7 @@ class TokenLogSearch extends TokenLog
     {
         return [
             [['id', 'user_id', 'token_id', 'ip', 'created_at'], 'integer'],
-            [['username', 'token_value', 'url'], 'safe'],
+            [['username', 'token_value', 'url', 'method'], 'safe'],
         ];
     }
 
@@ -69,6 +69,7 @@ class TokenLogSearch extends TokenLog
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'token_value', $this->token_value])
+            ->andFilterWhere(['like', 'method', $this->method])
             ->andFilterWhere(['like', 'url', $this->url]);
 
 

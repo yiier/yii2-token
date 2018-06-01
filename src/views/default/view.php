@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -30,13 +29,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'user_id',
+            'username',
+            'provider',
             'value',
             'expires_in',
             'ip',
             'status',
-            'created_at',
-            'updated_at',
-            'expired_at',
+            'created_at:datetime',
+            'updated_at:datetime',
+            'expired_at:datetime',
         ],
     ]) ?>
 

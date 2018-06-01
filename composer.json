@@ -1,8 +1,8 @@
 {
-    "name": "yiier/yii2-rest-token",
+    "name": "yiier/yii2-token",
     "description": "RESTful Token for Yii 2",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension"],
+    "keywords": ["yii2","extension","restful"],
     "license": "BSD-4-Clause",
     "authors": [
         {

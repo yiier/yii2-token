@@ -24,13 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'user_id',
             'username',
+            'provider',
             'value',
             'expires_in',
             [
                 'format' => 'raw',
                 'attribute' => 'ip',
                 'value' => function ($data) {
-                    return long2ip($data->ip);
+                    return $data->ip;
                 },
             ],
             'created_at:datetime',
